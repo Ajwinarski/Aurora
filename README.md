@@ -1,10 +1,21 @@
-# RFID_Door_Lock
-Arduino Uno R3 RFID door lock code and setup information
+# Arduino RFID Door Lock V2
+Arduino Uno R3 RFID and Keypad Door Lock Code and Setup
+
+## Parts List
+
+## Overall wiring (use http://fritzing.org/home/)
 
 ## ID-20LA Guide [Link](https://www.sparkfun.com/products/11828)
 ![RFID Reader ID-20LA](https://cdn.sparkfun.com//assets/parts/8/1/8/8/11828-01.jpg)
 
 ### Wiring
+| ID-20LA | -> | Arduino Uno R3 |
+| :---    | :---: | :---|
+| Pin 1  (GND)  | -> | Ground (GND) |
+| Pin 2  (RES)  | -> | Digital Pin 7 (D7)  |
+| Pin 7  (FORM) | -> | Ground (GND)  |
+| Pin 9  (D0)   | -> | Digital Pin 0 (D0)  |
+| Pin 11 (VCC)  | -> | 3.3 Volts (3.3V)  |
 
 ### Code
 ```C++
