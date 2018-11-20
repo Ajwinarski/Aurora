@@ -1,5 +1,5 @@
-# Arduino RFID Door Lock V2
-Arduino Uno R3 RFID and Keypad Door Lock Code and Setup
+# Aurora
+A Radio Frequency Identification (RFID) and Keypad Door Lock for the Arduino Uno R3
 
 ## Parts List
 
