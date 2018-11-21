@@ -1,6 +1,6 @@
 # Aurora
 A Radio Frequency Identification (RFID) and Keypad Door Lock for the Arduino Uno R3
-![Template](https://gist.github.com/fvcproductions/1bfc2d4aecb01a834b46#installation)
+[Template](https://gist.github.com/fvcproductions/1bfc2d4aecb01a834b46)
 
 ## Table of Contents
 - [Parts List](#parts-list)
