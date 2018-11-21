@@ -2,20 +2,32 @@
 A Radio Frequency Identification (RFID) and Keypad Door Lock for the Arduino Uno R3
 
 ## Parts List
+| Product | Model # | Price ($) | Link |
+|  :---   |  :---   | :--- |  :---  |
+|  Arduino Uno R3   |  A000066   | 22.00 | [Link](https://store.arduino.cc/usa/arduino-uno-rev3) |
+|  RFID Reader   |  ID-20LA   | 34.95 | [Link](https://www.sparkfun.com/products/11828) |
+|  RFID Reader Breakout   |  SEN-13030   | 1.95 | [Link](https://www.sparkfun.com/products/13030) |
+|  Qwiic Keypad   |  SPX-14836  | 9.95 | [Link](https://www.sparkfun.com/products/14836) |
+|  NeoPixel LED Ring   |  -----   | 9.95 | [Link](https://www.adafruit.com/product/1463) |
+|  Servo Motor   |  SG5010  | 7.99 | [Link](https://www.thingbits.net/products/servo-motor-standard-size-sg5010) |
+|  Magnetic Contact Switch  |  -----  | 3.95 | [Link](https://www.adafruit.com/product/375) |
+|  Piezo Buzzer   |  -----  | 0.95 | [Link](https://www.adafruit.com/product/1536) |
+
+
 
 ## Overall wiring (use http://fritzing.org/home/)
 
-## ID-20LA Guide [Link](https://www.sparkfun.com/products/11828)
+## RFID Reader ID-20LA Guide [Link](https://www.sparkfun.com/products/11828)
 <img src="https://cdn.sparkfun.com//assets/parts/8/1/8/8/11828-01.jpg" height="350" width="350">
 
 ### Wiring
-| ID-20LA | -> | Arduino Uno R3 |
-| :---    | :---: | :---|
-| Pin 1  (GND)  | -> | Ground (GND) |
-| Pin 2  (RES)  | -> | Digital Pin 7 (D7)  |
-| Pin 7  (FORM) | -> | Ground (GND)  |
-| Pin 9  (D0)   | -> | Digital Pin 0 (D0)  |
-| Pin 11 (VCC)  | -> | 3.3 Volts (3.3V)  |
+| ID-20LA | **-->** | Arduino Uno R3 |
+|  :---  | :---: | :--- |
+| Pin 1  (GND)  | **-->** | Ground (GND) |
+| Pin 2  (RES)  | **-->** | Digital Pin 7 (D7)  |
+| Pin 7  (FORM) | **-->** | Ground (GND)  |
+| Pin 9  (D0)   | **-->** | Digital Pin 0 (D0)  |
+| Pin 11 (VCC)  | **-->** | 3.3 Volts (3.3V)  |
 
 ### Code
 ```C++
