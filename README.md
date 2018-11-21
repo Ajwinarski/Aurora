@@ -4,11 +4,20 @@ A Radio Frequency Identification (RFID) and Keypad Door Lock for the Arduino Uno
 
 ## Table of Contents
 - [Parts List](#parts-list)
-- [Wiring Diagram](#wiring-diagram)
-- [RFID Reader](#rfid-reader)
-- [Qwiic Keypad](#qwiic-keypad)
-- [NeoPixel LED Ring](#neopixel-led-ring)
-- [Servo Motor](#servo-motor)
+- [Hardware](#hardware)
+  - [Wiring Diagram](#wiring-diagram)
+  - [RFID Reader](#rfid-reader)
+    - [Wiring](#wiring)
+    - [Code](#code)
+  - [Qwiic Keypad](#qwiic-keypad)
+    - [Wiring](#wiring-1)
+    - [Code](#code-1)
+  - [NeoPixel LED Ring](#neopixel-led-ring)
+    - [Wiring](#wiring-2)
+    - [Code](#code-2)
+  - [Servo Motor](#servo-motor)
+    - [Wiring](#wiring-3)
+    - [Code](#code-3)
 
 ## Parts List
 | Product | Model # | Price ($) | Links |
@@ -22,16 +31,17 @@ A Radio Frequency Identification (RFID) and Keypad Door Lock for the Arduino Uno
 |  Magnetic Contact Switch  |  -----  | 3.95 | [Link](https://www.adafruit.com/product/375) |
 |  Piezo Buzzer   |  -----  | 0.95 | [Link](https://www.adafruit.com/product/1536) |
 
+## Hardware
 
-## Wiring Diagram
+### Wiring Diagram
 (use http://fritzing.org/home/)
 
-## RFID Reader
+### RFID Reader
 125 KHz reader used to scan tags in order to change the lock position on the door
 
 <img src="https://cdn.sparkfun.com//assets/parts/8/1/8/8/11828-01.jpg" height="350" width="350">
 
-### Wiring
+#### Wiring
 | ID-20LA | **-->** | Arduino Uno R3 |
 |  :---  | :---: | :--- |
 | Pin 1  (GND)  | **-->** | Ground (GND) |
@@ -40,7 +50,7 @@ A Radio Frequency Identification (RFID) and Keypad Door Lock for the Arduino Uno
 | Pin 9  (D0)   | **-->** | Digital Pin 0 (D0)  |
 | Pin 11 (VCC)  | **-->** | 3.3 Volts (3.3V)  |
 
-### Code
+#### Code
 ```C++
 void checkReader();          // Checks the reader for tags
 void checkTag(char tag[]);   // Checks given tag to the other predfined valid tags
