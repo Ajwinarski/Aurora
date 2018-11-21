@@ -14,7 +14,7 @@
 // KEYPAD_SCL_PIN 5                    document which pins are used
 
 // Digital Pins
-#define D0_PIN              0
+#define RFID_DATA_PIN       0
 #define CONTACT_SWITCH_PIN  4
 #define LED_DATA_PIN        6       // 5V
 #define RESET_PIN           7
@@ -26,26 +26,20 @@
 // Other
 #define LED_NUM 16                  // 0-15
 #define AUSTIN_CARD         "0E001E9E1698"
-//#define STEFANOS_CARD ""
-//#define MOM_CARD ""
-//#define DAD_CARD ""
+#define SPARE_CARD          ""
 #define AUSTIN_PIN          "1130"
-#define STEFANOS_PIN        ""
 
 // TODO: * Make a 2D char array[13] for each valid tagString
 //       * ...
 
 // Global Variable Definition
-bool buttonState = false;       // Im assuming this is for the switch button?
-bool buttonOld = false;         // Used to see if the buttonState changed
-bool ignoreReset = false;       // Look into this var
+bool buttonState = false;       // Holds the state of the change lock push button
+bool buttonOld = false;         // Used to validate if the buttonState changed
 bool doorLocked = false;        // True if door is locked
-bool reading = false;           // True if the RFID reader is in a reading state
 char tagString[13];             // May want to use byte instead of char
 char keypadBuffer[32];          // Holds the 4 keypad digits
 Servo lockServo;                // Create servo object to control a servo
 String dayCode = "";            // Holds the days keypad code
-uint8_t readByte = NULL;        // The byte that holds the current keypad entry
 uint8_t counter = 0;            // Keeps track of position in the keypadBuffer
 uint16_t pixel = 0, color = 0;  // Inits the pixel and color data for the rainbow cycling
 Adafruit_NeoPixel LEDring = Adafruit_NeoPixel(LED_NUM, LED_DATA_PIN, NEO_GRB + NEO_KHZ800);
@@ -57,12 +51,12 @@ void setup() {
   digitalWrite(RESET_PIN, HIGH);              // Write the reset pin
   pinMode(LOCK_BUTTON_PIN, INPUT_PULLUP);     // Init the lock button
   pinMode(CONTACT_SWITCH_PIN, INPUT_PULLUP);  // Init the contact switch
-  lock();                                     // Uhh, yeah
   LEDring.begin();                            // Init the LED Ring pin
   LEDring.show();                             // Set the LEDs to off
   LEDring.setBrightness(20);                  // ~1/12.75 the max brightness (0-255)
   Wire.begin();                               // Init the I2C communications (keypad)
   buttonOld = digitalRead(LOCK_BUTTON_PIN);   // CHECK IF THIS CALL IS NECESSARY
+  lock();                                     // Locks the door
   GetSetTime();                               // Call the getter/setter for time
   dailyCode();                                // Calculates and sets the dayCode
 }
@@ -73,8 +67,9 @@ void loop() {
     rainbowCycle();
 
   // Check for button push every second
-  if ((millis() % 1000) == 0)
-    buttonState = digitalRead(LOCK_BUTTON_PIN);   // Check if the change lock button was pressed
+  if ((millis() % 500) == 0)
+    // Check if the change lock button was pressed
+    buttonState = digitalRead(LOCK_BUTTON_PIN);
 
   // Check the keypad every quarter of a second
   if ((millis() % 250) == 0) {
@@ -86,10 +81,8 @@ void loop() {
 
   // Prints the new daily code (testing purposes)
   if (hour() == 0 && minute() == 0 && second() == 0) {
-    dailyCode();                            // Set the new daily code
-    Serial.print("Daily Code: ");
-    Serial.println(dayCode);                // Shows the dailyCode (testing purposes)
-    delay(1000);                            // Wait one second
+    dailyCode();           // Set the new daily code
+    delay(1000);           // Wait for second to no longer == 0
   }
 }
 
@@ -103,10 +96,9 @@ void checkReader() {
   if (Serial.available() >= 13) {
     // If the first byte is a 2, begin to read the input
     if (Serial.read() == 2) {
-      for (uint8_t i = 0; i < sizeof(tagString); i++) {
-        readByte = Serial.read();
-        tagString[i] = readByte;
-      }
+      // Read in each byte from the tag
+      for (uint8_t i=0; i<sizeof(tagString); i++)
+        tagString[i] = Serial.read();
       Serial.print("Tag scanned: ");
       Serial.println(tagString);
       checkTag(tagString);                // Check if it is a match
@@ -127,9 +119,9 @@ void checkTag(char tag[]) {
     acceptTone();                         // Play the acceptance tone
     changeLock();                         // Change the current lock position
   }
-  // else if(compareTag(tag, STEFANOS_CARD)) {
-  //   Serial.println("Tag Match - Stefanos's card: ");
-  //   Serial.println(STEFANOS_CARD);
+  // else if(compareTag(tag, SPARE_CARD)) {
+  //   Serial.println("Tag Match - Spare card: ");
+  //   Serial.println(SPARE_CARD);
   //   flash(LEDring.Color(0,255,0));
   //   acceptTone();
   //   changeLock();
@@ -154,7 +146,7 @@ void resetReader() {
 // Compare the given tag to the given valid tag
 bool compareTag(char tag[], char database[]) {
   if(strlen(tag) == 0) return false;      //empty
-  for(int i = 0; i < 12; i++) {
+  for(int i=0; i<12; i++) {
     // may want to use strstr(tag, database) to compare two char arrays
     if(tag[i] != database[i]) return false;
   }
@@ -200,12 +192,17 @@ void checkKeypad() {
 void checkCode(String code) {
   if (code == AUSTIN_PIN || code == dayCode) {
     flash(LEDring.Color(0,255,0));
+    Serial.print("Code: ");Serial.print(code);
+    Serial.println(" accepted.");
     acceptTone();
     changeLock();
   } else {
     flash(LEDring.Color(255,0,0));
+    Serial.print("Code: ");Serial.print(code);
+    Serial.println(" rejected.");
     rejectTone();
-    lock();
+    if (!doorLocked)
+      lock();
   }
 }
 
@@ -215,16 +212,15 @@ void checkCode(String code) {
 
 // Sets the lock position to locked
 void lock() {
-  lockServo.attach(SERVO_DATA_PIN);
-  while (digitalRead(CONTACT_SWITCH_PIN) == HIGH) {
-    // Door is open... wait for it to close before locking
+  // Door is open... wait for it to close before locking
+  while (digitalRead(CONTACT_SWITCH_PIN) == HIGH)
     delay(1000);
-  }
+  lockServo.attach(SERVO_DATA_PIN);
   lockServo.write(15);
   delay(1000);
-  Serial.println("Locked.");
-  doorLocked = true;
   lockServo.detach();
+  doorLocked = true;
+  Serial.println("Locked.");
 }
 
 // Sets the lock position to unlocked
@@ -232,9 +228,9 @@ void unlock() {
   lockServo.attach(SERVO_DATA_PIN);
   lockServo.write(110);
   delay(1000);
-  Serial.println("Unlocked.");
-  doorLocked = false;
   lockServo.detach();
+  doorLocked = false;
+  Serial.println("Unlocked.");
 }
 
 // Changes the current lock position
@@ -245,14 +241,8 @@ void changeLock() {
     unlock();
     lockCountdown(15);                          // Countdown will last 15 seconds
     buttonOld = digitalRead(LOCK_BUTTON_PIN);   // Update prev button position
-  }
-  // If the door is unlocked and needs to be locked...
-  else {
-    // Door is open... wait for it to close before locking
-    while (digitalRead(CONTACT_SWITCH_PIN) == HIGH)
-      delay(1000);
-    lock();
-  }
+  } else
+    lock();                                     // Locks if the door is open
 }
 
 // Counts down in seconds depending on the given wait time
@@ -270,12 +260,12 @@ void lockCountdown(uint8_t wait) {
       return;
     }
     //LEDring.setPixelColor(i, LEDring.Color(0,255,0));
-    if (i==0)
+    if (i == 0)
       LEDring.setPixelColor(LEDring.numPixels()-1, LEDring.Color(0,255,0));
     else
       LEDring.setPixelColor(i-1, LEDring.Color(0,0,0));
     LEDring.show();
-    delay((wait*1000)/16);      // Delays the number of seconds given as wait
+    delay((wait * 1000) / 16);         // Delays the number of seconds given as wait
   }
   changeLock();
   closeTone();
@@ -286,7 +276,6 @@ void lockCountdown(uint8_t wait) {
 /***********************************************/
 
 // Generates the 4 digit code based on the current date
-// TODO: Convert from string to char[] for efficiency
 void dailyCode() {
   // day() = 1-31
   // month() = 1-12
@@ -295,21 +284,17 @@ void dailyCode() {
   // Example1: Tuesday, November 13th, 2018 = 13*11*3*18 = 7722
   // Example1: Friday, November 16th, 2018 = 16*11*6*18 = 19008 -> 9008
   //uint32_t code = (day() * month() * weekday() * (year() % 100));
+  //String code_str = String(code);
 
   String code_str = String((day() * month() * weekday() * (year() % 100)));
   // If the code is longer than 4 digits, truncate
-  if (code_str.length() > 4) {
+  if (code_str.length() > 4)
     code_str = code_str.substring(code_str.length() - 4);
-  }
   // While the code is less than 4 digits, pad with 0's
-  else {
-    while (code_str.length() < 4) {
-      for (uint8_t i=0; i < (4-code_str.length()); i++) {
+  else
+    while (code_str.length() < 4)
+      for (uint8_t i=0; i<(4-code_str.length()); i++)
         code_str = "0" + code_str;
-      }
-    }
-  }
-
   dayCode = code_str;
   Serial.print("Daily Code: ");
   Serial.println(dayCode);             // Shows the dailyCode (testing purposes)
@@ -363,7 +348,7 @@ void rejectTone() {
 // Plays a tone when a keypad button is pressed
 void pinPressedTone() {
   tone(PIEZO_PIN, 2400);
-  delay(150);
+  delay(120);
   noTone(PIEZO_PIN);
 }
 
@@ -395,7 +380,7 @@ void keypadFeedback() {
   LEDring.show();
 }
 
-// Takes a color and flashes the LEDring with it 3 times?
+// Takes a color and flashes the LEDring with it 3 times
 void flash(uint32_t c) {
   allSet(c); delay(50);
   allSet(LEDring.Color(0, 0, 0)); delay(50);
@@ -405,7 +390,7 @@ void flash(uint32_t c) {
   allSet(LEDring.Color(0, 0, 0)); delay(50);
 }
 
-// Takes a color and set all the LEDring pixels to the color
+// Takes a color and sets all the LEDring pixels to the color
 void allSet(uint32_t c) {
   for(uint16_t i=0; i<LEDring.numPixels(); i++)
       LEDring.setPixelColor(i, c);
@@ -415,9 +400,9 @@ void allSet(uint32_t c) {
 // Makes sure that the last pixel and first pixel connect in a loop
 uint32_t Wheel(byte WheelPos) {
   WheelPos = 255 - WheelPos;
-  if(WheelPos < 85) {
+  if (WheelPos < 85) {
    return LEDring.Color(255 - WheelPos * 3, 0, WheelPos * 3);
-  } else if(WheelPos < 170) {
+  } else if (WheelPos < 170) {
     WheelPos -= 85;
    return LEDring.Color(0, WheelPos * 3, 255 - WheelPos * 3);
   } else {
