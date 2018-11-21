@@ -1,8 +1,16 @@
 # Aurora
 A Radio Frequency Identification (RFID) and Keypad Door Lock for the Arduino Uno R3
 
+## Table of Contents
+- [Parts List](#parts-list)
+- [Wiring Diagram](#wiring-diagram)
+- [RFID Reader](#rfid-reader)
+- [Qwiic Keypad](#qwiic-keypad)
+- [NeoPixel LED Ring](#neopixel-led-ring)
+- [Servo Motor](#servo-motor)
+
 ## Parts List
-| Product | Model # | Price ($) | Link |
+| Product | Model # | Price ($) | Links |
 |  :---   |  :---   | :--- |  :---  |
 |  Arduino Uno R3   |  A000066   | 22.00 | [Link](https://store.arduino.cc/usa/arduino-uno-rev3) |
 |  RFID Reader   |  ID-20LA   | 34.95 | [Link](https://www.sparkfun.com/products/11828) |
@@ -14,10 +22,12 @@ A Radio Frequency Identification (RFID) and Keypad Door Lock for the Arduino Uno
 |  Piezo Buzzer   |  -----  | 0.95 | [Link](https://www.adafruit.com/product/1536) |
 
 
+## Wiring Diagram
+(use http://fritzing.org/home/)
 
-## Overall wiring (use http://fritzing.org/home/)
+## RFID Reader
+125 KHz reader used to scan tags in order to change the lock position on the door
 
-## RFID Reader ID-20LA Guide [Link](https://www.sparkfun.com/products/11828)
 <img src="https://cdn.sparkfun.com//assets/parts/8/1/8/8/11828-01.jpg" height="350" width="350">
 
 ### Wiring
@@ -36,7 +46,9 @@ void checkTag(char tag[]);   // Checks given tag to the other predfined valid ta
 void resetReader();          // Resets the reader to get ready for another read
 ```
 
-## Qwiic Keypad [Link](https://www.sparkfun.com/products/14836)
+## Qwiic Keypad
+Keypad used to enter a 4-digit code in order to change the lock position on the door
+
 <img src="https://cdn.sparkfun.com//assets/parts/1/3/1/0/6/14836-Qwiic_Keypad-01.jpg" height="350" width="350">
 
 ### Wiring
@@ -48,7 +60,9 @@ void checkCode(String code); // Checks to see if the 4 digit code entered is cor
 void dailyCode();            // Generates the 4 digit code based on the current date
 ```
 
-## NeoPixel LED Ring [Link](https://www.adafruit.com/product/1463)
+## NeoPixel LED Ring
+Gives the user feedback on things like lock countdown, number of pins digits entered, and more
+
 <img src="https://cdn-shop.adafruit.com/1200x900/1463-03.jpg" height="320" width="400">
 
 ### Wiring
@@ -61,8 +75,10 @@ void flash(uint32_t c);      // Takes a color and flashes the LEDring with it 3 
 void allSet(uint32_t c);     // Takes a color and sets all the LEDring pixels to the color
 ```
 
-## Servo Motor [Link](https://www.thingbits.net/products/servo-motor-standard-size-sg5010)
-<img src="https://d2drzakx2pq6fl.cloudfront.net/production/products/399/large/servo-motor-sg5010.jpg?1451678104" height="300" width="400">
+## Servo Motor
+Used to rotate the lock on the door to adjust the lock state (locked/unlock)
+
+<img src="https://futabausa.com/wp-content/uploads/2018/06/mxs-601017.jpg" height="300" width="400">
 
 ### Wiring
 
