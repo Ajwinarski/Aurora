@@ -140,7 +140,7 @@ void checkTag(char tag[]) {
 void resetReader() {
   digitalWrite(RESET_PIN, LOW);
   digitalWrite(RESET_PIN, HIGH);
-  delay(50);
+  delay(80);
 }
 
 // Compare the given tag to the given valid tag
@@ -347,8 +347,8 @@ void rejectTone() {
 
 // Plays a tone when a keypad button is pressed
 void pinPressedTone() {
-  tone(PIEZO_PIN, 2400);
-  delay(120);
+  tone(PIEZO_PIN, 2200);
+  delay(150);
   noTone(PIEZO_PIN);
 }
 
