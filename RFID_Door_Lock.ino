@@ -56,15 +56,18 @@ void setup() {
   LEDring.setBrightness(20);                  // ~1/12.75 the max brightness (0-255)
   Wire.begin();                               // Init the I2C communications (keypad)
   buttonOld = digitalRead(LOCK_BUTTON_PIN);   // CHECK IF THIS CALL IS NECESSARY
-  lock();                                     // Locks the door
+  //lock();                                     // Locks the door
   GetSetTime();                               // Call the getter/setter for time
   dailyCode();                                // Calculates and sets the dayCode
 }
 
 // Run indefinitely where all of the important functionaly takes place
 void loop() {
-  if (strlen(keypadBuffer) == 0)
-    rainbowCycle();
+  if (strlen(keypadBuffer) == 0){
+    LEDring.setPixelColor(0, LEDring.Color(0,255,0));
+    LEDring.show();
+  }
+    //rainbowCycle();
 
   // Check for button push every second
   if ((millis() % 500) == 0)
