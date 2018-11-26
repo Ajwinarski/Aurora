@@ -92,6 +92,7 @@ void loop() {
 /***********************************************/
 /*************** RFID Code Below ***************/
 /***********************************************/
+// http://playground.arduino.cc/Code/ID12
 
 // Checks the reader for tags
 void checkReader() {
