@@ -3,9 +3,11 @@ A Radio Frequency Identification (RFID) and Keypad Door Lock for the Arduino Uno
 [Template](https://gist.github.com/fvcproductions/1bfc2d4aecb01a834b46)
 
 ## Table of Contents
-- [Parts List](#parts-list)
+- [Installation](#installation)
+- [Software](#software)
 - [Hardware](#hardware)
   - [Wiring Diagram](#wiring-diagram)
+  - [Parts List](#parts-list)
   - [RFID Reader](#rfid-reader)
     - [Wiring](#wiring)
     - [Code](#code)
@@ -19,7 +21,22 @@ A Radio Frequency Identification (RFID) and Keypad Door Lock for the Arduino Uno
     - [Wiring](#wiring-3)
     - [Code](#code-3)
 
-## Parts List
+## Installation
+#### 1. Clone or download the zip folder
+#### 2. Open Aurora-master.ino in the Arduino IDE
+#### 3. Click on verify to make sure that you have the necessary libraries included and that there are no compilation errors (If any libraries are missing, you can search for then through *Sketch->Include Library->Manage Libraries...*)
+#### 4. Choose your Arduino device through *Tools->Board* and then selecting the proper COM Port for your device through *Tools->Port*
+#### 5. Before you click upload, make sure that the Digital Pin 0 (D0) is disconnected from the ID-20LA RFID Reader either from a switch or by pulling the pin out from the Arduino
+#### 6. Upload to your board and upon completion, make sure to reconnect the D0 pin to the ID-20LA RFID Reader
+
+## Software
+
+## Hardware
+
+### Wiring Diagram
+(use http://fritzing.org/home/)
+
+### Parts List
 | Product | Model # | Price ($) | Links |
 |  :---   |  :---   | :--- |  :---  |
 |  Arduino Uno R3   |  A000066   | 22.00 | [Link](https://store.arduino.cc/usa/arduino-uno-rev3) |
@@ -30,11 +47,6 @@ A Radio Frequency Identification (RFID) and Keypad Door Lock for the Arduino Uno
 |  Servo Motor   |  SG5010  | 7.99 | [Link](https://www.thingbits.net/products/servo-motor-standard-size-sg5010) |
 |  Magnetic Contact Switch  |  -----  | 3.95 | [Link](https://www.adafruit.com/product/375) |
 |  Piezo Buzzer   |  -----  | 0.95 | [Link](https://www.adafruit.com/product/1536) |
-
-## Hardware
-
-### Wiring Diagram
-(use http://fritzing.org/home/)
 
 ### RFID Reader
 125 KHz reader used to scan tags in order to change the lock position on the door
