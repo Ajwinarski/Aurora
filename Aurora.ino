@@ -1,5 +1,5 @@
 /***************************************************/
-/*************        RFID_CODE        *************/
+/**************        Aurora        ***************/
 /***********   Author: Austin Winarski   ***********/
 /*************    <> for the Uno R3    *************/
 /***************************************************/
@@ -32,7 +32,7 @@
 // TODO: * Make a 2D char array[13] for each valid tagString
 //       * ...
 
-// Global Variable Definition
+// Global Variable Declaration
 bool buttonState = false;       // Holds the state of the change lock push button
 bool buttonOld = false;         // Used to validate if the buttonState changed
 bool doorLocked = false;        // True if door is locked
