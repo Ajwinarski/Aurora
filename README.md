@@ -4,9 +4,9 @@ A Radio Frequency Identification (RFID) and Keypad Door Lock for the Arduino Uno
 
 ## Table of Contents
 - [Installation](#installation)
+- [Wiring Diagram](#wiring-diagram)
 - [Software](#software)
 - [Hardware](#hardware)
-  - [Wiring Diagram](#wiring-diagram)
   - [Parts List](#parts-list)
   - [RFID Reader](#rfid-reader)
     - [Wiring](#wiring)
@@ -29,12 +29,12 @@ A Radio Frequency Identification (RFID) and Keypad Door Lock for the Arduino Uno
 #### 5. Before you click upload, make sure that the Digital Pin 0 (D0) is disconnected from the ID-20LA RFID Reader either from a switch or by pulling the pin out from the Arduino
 #### 6. Upload to your board and upon completion, make sure to reconnect the D0 pin to the ID-20LA RFID Reader
 
+## Wiring Diagram
+(use http://fritzing.org/home/)
+
 ## Software
 
 ## Hardware
-
-### Wiring Diagram
-(use http://fritzing.org/home/)
 
 ### Parts List
 | Product | Model # | Price ($) | Links |
