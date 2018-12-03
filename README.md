@@ -24,8 +24,8 @@ A Radio Frequency Identification (RFID) and Keypad Door Lock for the Arduino Uno
 ## Installation
 #### 1. Clone or download the zip folder
 #### 2. Open Aurora-master.ino in the Arduino IDE
-#### 3. Click on verify to make sure that you have the necessary libraries included and that there are no compilation errors (If any libraries are missing, you can search for then through *Sketch->Include Library->Manage Libraries...*)
-#### 4. Choose your Arduino device through *Tools->Board* and then selecting the proper COM Port for your device through *Tools->Port*
+#### 3. After connecting your Arduino device, choose it through *Tools->Board->...* and then selecting the proper COM Port for your device through *Tools->Port->...*
+#### 4. Click on verify to make sure that you have the necessary libraries included and that there are no compilation errors (If any libraries are missing, you can search for them through *Sketch->Include Library->Manage Libraries...*)
 #### 5. Before you click upload, make sure that the Digital Pin 0 (D0) is disconnected from the ID-20LA RFID Reader either from a switch or by pulling the pin out from the Arduino
 #### 6. Upload to your board and upon completion, make sure to reconnect the D0 pin to the ID-20LA RFID Reader
 
@@ -75,6 +75,12 @@ Keypad used to enter a 4-digit code in order to change the lock position on the 
 <img src="https://cdn.sparkfun.com//assets/parts/1/3/1/0/6/14836-Qwiic_Keypad-01.jpg" height="350" width="350">
 
 ### Wiring
+| Qwiic Keypad | **-->** | Arduino Uno R3 |
+|  :---  | :---: | :--- |
+| Ground  (GND)  | **-->** | Ground (GND) |
+| 3.3 Volts  (3.3V)  | **-->** |  3.3 Volts (3.3V)  |
+| SDA  (SDA) | **-->** | Analog In 4 (A4)  |
+| SCL (SCL)   | **-->** | Analog In 5 (A5)  |
 
 ### Code
 ```C++
@@ -89,6 +95,11 @@ Gives the user feedback on things like lock countdown, number of pins digits ent
 <img src="https://cdn-shop.adafruit.com/1200x900/1463-03.jpg" height="320" width="400">
 
 ### Wiring
+| NeoPixel LED Ring | **-->** | Arduino Uno R3 |
+|  :---  | :---: | :--- |
+| Ground  (GND)  | **-->** | Ground (GND) |
+| V+  (V+)  | **-->** |  5 Volts (5V)  |
+| IN (IN)  | **-->** | Digital Pin 6 (D6)  |
 
 ### Code
 ```C++
@@ -104,6 +115,11 @@ Used to rotate the lock on the door to adjust the lock state (locked/unlock)
 <img src="https://futabausa.com/wp-content/uploads/2018/06/mxs-601017.jpg" height="300" width="400">
 
 ### Wiring
+| Servo Motor | **-->** | Arduino Uno R3 |
+|  :---  | :---: | :--- |
+| Ground  (GND)  | **-->** | Ground (GND) |
+| 3.3 Volts  (3.3V)  | **-->** |  3.3 Volts (3.3V)  |
+| Source (Signal)  | **-->** | Digital Pin 9 (D9)  |
 
 ### Code
 ```C++
