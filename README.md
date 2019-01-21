@@ -30,7 +30,7 @@ A Radio Frequency Identification (RFID) and Keypad Door Lock for the Arduino Uno
 #### 6. Upload to your board and upon completion, make sure to reconnect the D0 pin to the ID-20LA RFID Reader
 
 ## Wiring Diagram
-(use http://fritzing.org/home/)
+<img src="https://i.imgur.com/pMlCq8F_d.jpg?maxwidth=1200&shape=thumb&fidelity=medium" height="580" width="900">
 
 ## Software
 
@@ -112,7 +112,7 @@ void allSet(uint32_t c);     // Takes a color and sets all the LEDring pixels to
 ## Servo Motor
 Used to rotate the lock on the door to adjust the lock state (locked/unlock)
 
-<img src="https://futabausa.com/wp-content/uploads/2018/06/mxs-601017.jpg" height="300" width="400">
+<img src="https://media.rs-online.com/t_large/F7813058-01.jpg" height="350" width="350">
 
 ### Wiring
 | Servo Motor | **-->** | Arduino Uno R3 |
